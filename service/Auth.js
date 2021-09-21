@@ -9,10 +9,12 @@ exports.login = async (req, res) => {
         password: req.body.password
     }
 
+    console.log(data)
+
     authModel.login(data)
 
         .then((result) => {
-            console.log(result)
+            // console.log(result)
             if (result.length > 0) {
                 let data = {
                     id: result[0].id_user,
@@ -21,7 +23,7 @@ exports.login = async (req, res) => {
                 res.json({
                     status: 'ok',
                     login: true,
-                    token: jwt.Encode(data)
+                    token: jwt.createJWTToken(data)
                 })
             } else {
                 res.json({
@@ -33,7 +35,7 @@ exports.login = async (req, res) => {
         .catch((err) => {
             res.json({
                 status: 'error',
-                error_message: err
+                error_message: err.message
             })
         })
 }
