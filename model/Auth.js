@@ -157,6 +157,8 @@ exports.resetPassword = async (req, res) => {
             rand: req.params.id
         }
 
+        console.log('ini',data)
+
         new Promise(function (resolve, reject) {
             var sql = `SELECT * FROM users WHERE rand = '${data.rand}' `;
     
@@ -177,7 +179,7 @@ exports.resetPassword = async (req, res) => {
                                 resolve(true);
         
                                 if (result) {
-                                    return res.send({
+                                    return res.json({
                                         status: "Reset Password Success"
                                     });
                                 }
