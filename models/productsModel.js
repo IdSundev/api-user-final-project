@@ -3,40 +3,40 @@ const pool = require("../config/db");
 exports.selectProducts = (data) => {
   let sql
   if(data.filterName ==="" && data.filterCategory ==="" && data.orderBy ===""){
-    sql = `SELECT p.id_product, p.name, c.category, p.price, p.picture FROM products as p INNER JOIN category as c WHERE p.id_category = c.id_category ORDER BY id_product DESC LIMIT ${data.position},${data.limit}`;
+    sql = `SELECT so.id_product, SUM(so.available) as available, p.name, p.price, p.picture, c.category FROM stock_operasional as so INNER JOIN products as p ON so.id_product = p.id_product INNER JOIN category as c ON p.id_category = c.id_category GROUP BY id_product ORDER BY id_product DESC LIMIT ${data.position},${data.limit}`;
   }
   if(data.filterName ==="" && data.filterCategory ==="" && data.orderBy ==="name"){
-    sql = `SELECT p.id_product, p.name, c.category, p.price, p.picture FROM products as p INNER JOIN category as c WHERE p.id_category = c.id_category ORDER BY name LIMIT ${data.position},${data.limit}`;
+    sql = `SELECT so.id_product, SUM(so.available) as available, p.name, p.price, p.picture, c.category FROM stock_operasional as so INNER JOIN products as p ON so.id_product = p.id_product INNER JOIN category as c ON p.id_category = c.id_category GROUP BY id_product ORDER BY name LIMIT ${data.position},${data.limit}`;
   }
   if(data.filterName ==="" && data.filterCategory ==="" && data.orderBy ==="price"){
-    sql = `SELECT p.id_product, p.name, c.category, p.price, p.picture FROM products as p INNER JOIN category as c WHERE p.id_category = c.id_category ORDER BY price DESC LIMIT ${data.position},${data.limit}`;
+    sql = `SELECT so.id_product, SUM(so.available) as available, p.name, p.price, p.picture, c.category FROM stock_operasional as so INNER JOIN products as p ON so.id_product = p.id_product INNER JOIN category as c ON p.id_category = c.id_category GROUP BY id_product ORDER BY price DESC LIMIT ${data.position},${data.limit}`;
   }
   if(data.filterName !=="" && data.filterCategory ==="" && data.orderBy ===""){
-    sql = `SELECT p.id_product, p.name, c.category, p.price, p.picture FROM products as p INNER JOIN category as c ON p.id_category = c.id_category WHERE name LIKE '%${data.filterName}%' ORDER BY id_product DESC LIMIT ${data.position},${data.limit}`;
+    sql = `SELECT so.id_product, SUM(so.available) as available, p.name, p.price, p.picture, c.category FROM stock_operasional as so INNER JOIN products as p ON so.id_product = p.id_product INNER JOIN category as c ON p.id_category = c.id_category WHERE name LIKE '%${data.filterName}%' GROUP BY id_product ORDER BY id_product DESC LIMIT ${data.position},${data.limit}`;
   }
   if(data.filterName ==="" && data.filterCategory !=="" && data.orderBy ===""){
-    sql = `SELECT p.id_product, p.id_category, p.name, c.category, p.price, p.picture FROM products as p INNER JOIN category as c ON p.id_category = c.id_category WHERE p.id_category = ${data.filterCategory} ORDER BY id_product DESC LIMIT ${data.position},${data.limit}`;
+    sql = `SELECT so.id_product, SUM(so.available) as available, p.name, p.price, p.picture, c.category FROM stock_operasional as so INNER JOIN products as p ON so.id_product = p.id_product INNER JOIN category as c ON p.id_category = c.id_category WHERE p.id_category = ${data.filterCategory} GROUP BY id_product ORDER BY id_product DESC LIMIT ${data.position},${data.limit}`;
   }
   if(data.filterName !=="" && data.filterCategory !=="" && data.orderBy ===""){
-    sql = `SELECT p.id_product, p.id_category, p.name, c.category, p.price, p.picture FROM products as p INNER JOIN category as c ON p.id_category = c.id_category WHERE p.id_category = ${data.filterCategory} AND p.name LIKE '%${data.filterName}%' ORDER BY id_product DESC LIMIT ${data.position},${data.limit}`;
+    sql = `SELECT so.id_product, SUM(so.available) as available, p.name, p.price, p.picture, c.category FROM stock_operasional as so INNER JOIN products as p ON so.id_product = p.id_product INNER JOIN category as c ON p.id_category = c.id_category WHERE p.id_category = ${data.filterCategory} AND p.name LIKE '%${data.filterName}%' GROUP BY id_product ORDER BY id_product DESC LIMIT ${data.position},${data.limit}`;
   }
   if(data.filterName !=="" && data.filterCategory ==="" && data.orderBy ==="name"){
-    sql = `SELECT p.id_product, p.name, c.category, p.price, p.picture FROM products as p INNER JOIN category as c ON p.id_category = c.id_category WHERE name LIKE '%${data.filterName}%' ORDER BY name LIMIT ${data.position},${data.limit}`;
+    sql = `SELECT so.id_product, SUM(so.available) as available, p.name, p.price, p.picture, c.category FROM stock_operasional as so INNER JOIN products as p ON so.id_product = p.id_product INNER JOIN category as c ON p.id_category = c.id_category WHERE name LIKE '%${data.filterName}%' GROUP BY id_product ORDER BY name LIMIT ${data.position},${data.limit}`;
   }
   if(data.filterName !=="" && data.filterCategory ==="" && data.orderBy ==="price"){
-    sql = `SELECT p.id_product, p.name, c.category, p.price, p.picture FROM products as p INNER JOIN category as c ON p.id_category = c.id_category WHERE name LIKE '%${data.filterName}%' ORDER BY price DESC LIMIT ${data.position},${data.limit}`;
+    sql = `SELECT so.id_product, SUM(so.available) as available, p.name, p.price, p.picture, c.category FROM stock_operasional as so INNER JOIN products as p ON so.id_product = p.id_product INNER JOIN category as c ON p.id_category = c.id_category WHERE name LIKE '%${data.filterName}%' GROUP BY id_product ORDER BY price DESC LIMIT ${data.position},${data.limit}`;
   }
   if(data.filterName ==="" && data.filterCategory !=="" && data.orderBy ==="name"){
-    sql = `SELECT p.id_product, p.id_category, p.name, c.category, p.price, p.picture FROM products as p INNER JOIN category as c ON p.id_category = c.id_category WHERE p.id_category = ${data.filterCategory} ORDER BY name LIMIT ${data.position},${data.limit}`;
+    sql = `SELECT so.id_product, SUM(so.available) as available, p.name, p.price, p.picture, c.category FROM stock_operasional as so INNER JOIN products as p ON so.id_product = p.id_product INNER JOIN category as c ON p.id_category = c.id_category WHERE p.id_category = ${data.filterCategory} GROUP BY id_product ORDER BY name LIMIT ${data.position},${data.limit}`;
   }
   if(data.filterName ==="" && data.filterCategory !=="" && data.orderBy ==="price"){
-    sql = `SELECT p.id_product, p.id_category, p.name, c.category, p.price, p.picture FROM products as p INNER JOIN category as c ON p.id_category = c.id_category WHERE p.id_category = ${data.filterCategory} ORDER BY price DESC LIMIT ${data.position},${data.limit}`;
+    sql = `SELECT so.id_product, SUM(so.available) as available, p.name, p.price, p.picture, c.category FROM stock_operasional as so INNER JOIN products as p ON so.id_product = p.id_product INNER JOIN category as c ON p.id_category = c.id_category WHERE p.id_category = ${data.filterCategory} GROUP BY id_product ORDER BY price DESC LIMIT ${data.position},${data.limit}`;
   }
   if(data.filterName !=="" && data.filterCategory !=="" && data.orderBy ==="name"){
-    sql = `SELECT p.id_product, p.id_category, p.name, c.category, p.price, p.picture FROM products as p INNER JOIN category as c ON p.id_category = c.id_category WHERE p.id_category = ${data.filterCategory} AND p.name LIKE '%${data.filterName}%' ORDER BY name LIMIT ${data.position},${data.limit}`;
+    sql = `SELECT so.id_product, SUM(so.available) as available, p.name, p.price, p.picture, c.category FROM stock_operasional as so INNER JOIN products as p ON so.id_product = p.id_product INNER JOIN category as c ON p.id_category = c.id_category WHERE p.id_category = ${data.filterCategory} AND p.name LIKE '%${data.filterName}%' GROUP BY id_product ORDER BY name LIMIT ${data.position},${data.limit}`;
   }
   if(data.filterName !=="" && data.filterCategory !=="" && data.orderBy ==="price"){
-    sql = `SELECT p.id_product, p.id_category, p.name, c.category, p.price, p.picture FROM products as p INNER JOIN category as c ON p.id_category = c.id_category WHERE p.id_category = ${data.filterCategory} AND p.name LIKE '%${data.filterName}%' ORDER BY price DESC LIMIT ${data.position},${data.limit}`;
+    sql = `SELECT so.id_product, SUM(so.available) as available, p.name, p.price, p.picture, c.category FROM stock_operasional as so INNER JOIN products as p ON so.id_product = p.id_product INNER JOIN category as c ON p.id_category = c.id_category WHERE p.id_category = ${data.filterCategory} AND p.name LIKE '%${data.filterName}%' GROUP BY id_product ORDER BY price DESC LIMIT ${data.position},${data.limit}`;
   }
   return new Promise((resolve, reject) => {
     pool.query(sql, (err, result) => {
@@ -67,3 +67,13 @@ exports.countProducts = (data) => {
     });
   });
 };
+
+exports.detail = (data) => {
+  return new Promise((resolve, reject) => {
+    let sql = `SELECT so.id_product, SUM(so.available) as available, p.name, p.price, p.picture, c.category FROM stock_operasional as so INNER JOIN products as p ON so.id_product = p.id_product INNER JOIN category as c ON p.id_category = c.id_category WHERE p.id_product = ${data.id} GROUP BY id_product`
+    pool.query(sql, (err,result) => {
+      if(err) reject(err);
+      resolve(result);
+    })
+  })
+}

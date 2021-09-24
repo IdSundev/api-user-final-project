@@ -84,3 +84,30 @@ exports.all = async (req, res) => {
       });
   });
 };
+
+exports.detail = async (req, res) => {
+  let data = {
+    id: req.params.id,
+  };
+  let result = Products.detail(data);
+  result
+    .then(function (result) {
+      if (result.length > 0) {
+        res.json({
+          status: 200,
+          product: result,
+        });
+      } else {
+        res.json({
+          status: 500,
+          message: err,
+        });
+      }
+    })
+    .catch(function (err) {
+      res.json({
+        status: 500,
+        message: err,
+      });
+    });
+};

@@ -21,6 +21,7 @@ router.post('/editinformation', verifyToken, userService.editInformation)
 
 // product 
 router.get('/products', ctrlProducts.all);
+router.get('/products/detail/:id', ctrlProducts.detail);
 router.get('/categories', ctrlCategories.all);
 
 router.post('/transaction-complete', checkToken, transactionService.selectTransactionComplete)
