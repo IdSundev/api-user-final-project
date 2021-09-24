@@ -6,6 +6,8 @@ const auth = require('../model/Auth')
 const {checkRegister} = require('../helper/middleware')
 const userService = require('../service/User')
 const {checkToken, verifyToken} = require ('../lib/jwt')
+const ctrlProducts = require("../controllers/products");
+const ctrlCategories = require("../controllers/categories");
 
 router.post('/login',authService.login)
 router.post('/register', checkRegister, authService.register)
@@ -15,6 +17,9 @@ router.post('/resetpassword/:id', auth.resetPassword)
 router.post('/select', checkToken, userService.selectUser)
 router.post('/editinformation', verifyToken, userService.editInformation)
 
+// product 
+router.get('/products', ctrlProducts.all);
+router.get('/categories', ctrlCategories.all);
 
 
 module.exports = router;
