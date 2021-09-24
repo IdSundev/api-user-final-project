@@ -100,6 +100,7 @@ exports.registerVerification = async (req, res) => {
 exports.forgetPassword = (data) => {
     return new Promise(function (resolve, reject) {
         var sql = `SELECT * FROM users WHERE email ='${data.email}' `;
+        console.log(data.email)
 
         pool.query(sql, (err, result) => {
             if (err) reject(err);
@@ -116,7 +117,7 @@ exports.forgetPassword = (data) => {
                     html: "Hello,<br> Please Click Link Below to Reset Password <br> " +
                     "<a href=" + link + "> Click here to verify account </a>"
                 }
-                smtpTransport.sendMail(mailOption, (err, res)=>{
+                smtpTransport.sendMail(mailOption, (err)=>{
                     if(err){
                         console.log(err)
                     } else{
@@ -127,12 +128,6 @@ exports.forgetPassword = (data) => {
                                 if (err) reject(err);
         
                                 resolve(true);
-        
-                                if (result) {
-                                    return res.send({
-                                        status: "Berhasil Disimpan"
-                                    });
-                                }
         
         
                             });
