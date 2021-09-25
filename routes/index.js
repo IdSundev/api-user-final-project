@@ -9,6 +9,11 @@ const {checkToken, verifyToken} = require ('../lib/jwt')
 
 const ctrlProducts = require("../controllers/products");
 const ctrlCategories = require("../controllers/categories");
+const ctrlAddress = require("../controllers/address");
+const ctrlProvince = require("../controllers/province");
+const ctrlCity = require("../controllers/city");
+const ctrlDistrict = require("../controllers/district");
+const ctrlVillage = require("../controllers/village");
 const transactionService = require('../service/Transaction')
 
 router.post('/login',authService.login)
@@ -23,6 +28,17 @@ router.post('/editinformation', verifyToken, userService.editInformation)
 router.get('/products', ctrlProducts.all);
 router.get('/products/detail/:id', ctrlProducts.detail);
 router.get('/categories', ctrlCategories.all);
+router.get('/address', ctrlAddress.all);
+router.post('/address/setdefault', ctrlAddress.setdefault);
+router.post('/address', ctrlAddress.add);
+// province
+router.get('/province', ctrlProvince.all);
+// city
+router.get('/city', ctrlCity.all);
+// district
+router.get('/district', ctrlDistrict.all);
+// village
+router.get('/village', ctrlVillage.all);
 
 router.post('/transaction-complete', checkToken, transactionService.selectTransactionComplete)
 router.post('/transaction-on-payment', checkToken, transactionService.selectTransactionOnPayment)
