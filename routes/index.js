@@ -7,6 +7,7 @@ const {checkRegister} = require('../helper/middleware')
 const userService = require('../service/User')
 const {checkToken, verifyToken} = require ('../lib/jwt')
 const transactionService = require('../service/Transaction')
+const cartService = require('../service/ShoppingCart')
 
 router.post('/login',authService.login)
 router.post('/register', checkRegister, authService.register)
@@ -26,6 +27,14 @@ router.get('/detail-transaction-on-process', transactionService.selectTransactio
 router.get('/detail-transaction-on-delivery', transactionService.selectTransactionDetail)
 router.get('/detail-transaction-cancel', transactionService.selectTransactionDetail)
 router.post('/payment-confirmation', transactionService.paymentConfirmation)
+router.post('/shopping-cart',checkToken, cartService.selectCart)
+router.post('/update-cart', cartService.updateCart)
+router.post('/address', checkToken, cartService.selectAddress)
+router.get('/warehouse', cartService.selectWarehouse)
+router.post('/selected-warehouse', cartService.selectClosestWarehouse)
+router.post('/create-transaction', cartService.createTransaction)
+router.post('/create-transaction-detail', cartService.createTransactionDetail)
+router.post('/delete-cart', cartService.deleteCart)
 
 module.exports = router;
 
