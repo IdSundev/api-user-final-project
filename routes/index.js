@@ -31,7 +31,7 @@ router.get('/products/detail/:id', ctrlProducts.detail);
 router.get('/categories', ctrlCategories.all);
 router.get('/address', ctrlAddress.all);
 router.post('/address/setdefault', ctrlAddress.setdefault);
-router.post('/address', ctrlAddress.add);
+router.post('/addres', ctrlAddress.add);
 // province
 router.get('/province', ctrlProvince.all);
 // city
