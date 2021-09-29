@@ -101,7 +101,7 @@ exports.createTransactionDetail = (post) => {
 
 exports.deleteCart = (data) => {
     return new Promise(function (resolve, reject) {
-        var sql = `DELETE FROM cart WHERE id_cart = '${data.id_user}'`;
+        var sql = `DELETE FROM cart WHERE id_user = '${data.id_user}'`;
         console.log(sql)
         pool.query(sql, (err, result) => {
             if (err) reject(err);
