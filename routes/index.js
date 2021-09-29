@@ -60,6 +60,8 @@ router.post('/selected-warehouse', cartService.selectClosestWarehouse)
 router.post('/create-transaction', cartService.createTransaction)
 router.post('/create-transaction-detail', cartService.createTransactionDetail)
 router.post('/delete-cart', cartService.deleteCart)
+router.post('/add-product-to-cart', checkToken, cartService.addProductToCart)
+router.post('/delete-product-from-cart', cartService.deleteProductFromCart)
 
 module.exports = router;
 
